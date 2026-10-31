@@ -1,0 +1,338 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Homebirth Bag Check</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Archivo:wght@500;700;800&display=swap">
+<style>
+/* Layout: one column clipboard — sticky status header, sections in bag order, sticky submit bar */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --ink:#15233a; --muted:#5b6b80; --line:#dde3ea;
+  --accent:#1f5fa8; --accent-ink:#ffffff; --accent-soft:#e3edf8;
+  --ok:#1b7a4b; --ok-soft:#e1f3e9; --warn:#a15c00; --warn-soft:#fdf0db; --bad:#b3261e; --bad-soft:#fbe5e3;
+  --yellow:#f2c230; --orange:#ec7a21;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1622; --surface:#17212f; --ink:#e7edf5; --muted:#9aa9bc; --line:#2a3646;
+  --accent:#6aa6ec; --accent-ink:#0b1420; --accent-soft:#1c2c42;
+  --ok:#5fcf93; --ok-soft:#163327; --warn:#f0b35a; --warn-soft:#3a2a12; --bad:#ff8a80; --bad-soft:#3d1a18;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1622; --surface:#17212f; --ink:#e7edf5; --muted:#9aa9bc; --line:#2a3646;
+  --accent:#6aa6ec; --accent-ink:#0b1420; --accent-soft:#1c2c42;
+  --ok:#5fcf93; --ok-soft:#163327; --warn:#f0b35a; --warn-soft:#3a2a12; --bad:#ff8a80; --bad-soft:#3d1a18;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+header .wrap{padding-block:14px 0;display:grid;gap:10px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.eyebrow{font:700 12px/1 var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:800 clamp(22px,5vw,28px)/1.1 var(--f-display);margin:4px 0 0;text-wrap:balance}
+.status{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-weight:700;font-size:14px}
+.status .dot{width:9px;height:9px;border-radius:50%;background:currentColor}
+.st-ok{background:var(--ok-soft);color:var(--ok)} .st-warn{background:var(--warn-soft);color:var(--warn)} .st-bad{background:var(--bad-soft);color:var(--bad)} .st-none{background:var(--accent-soft);color:var(--accent)}
+.statusline{font-size:14px;color:var(--muted)}
+.tabs{display:flex;gap:4px}
+.tab{font:700 15px var(--f-display);background:none;border:0;color:var(--muted);padding:10px 14px;border-bottom:3px solid transparent;cursor:pointer}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+main .wrap{padding-block:18px 120px;display:grid;gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:14px}
+label.fld{display:grid;gap:6px;font-weight:700;font-size:14px}
+input[type=text]{font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{flex:1 1 160px;font:700 15px var(--f-body);padding:12px;border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;text-align:left}
+.seg button small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.seg button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.sec-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.sec-h h2{font:700 17px/1.2 var(--f-display);margin:0;flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:8px}
+.swatch{width:14px;height:14px;border-radius:3px;flex:none}
+.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.count.done{color:var(--ok);font-weight:700}
+.allbtn{font:700 13px var(--f-body);padding:7px 10px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+ul.items{list-style:none;margin:0;padding:0}
+li.it{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:9px 14px;border-top:1px solid var(--line)}
+li.it:first-child{border-top:0}
+.qty{font:700 13px var(--f-display);font-variant-numeric:tabular-nums;min-width:30px;text-align:center;padding:3px 6px;border-radius:5px;background:var(--accent-soft);color:var(--accent)}
+.qty.blank{background:transparent}
+.nm{min-width:0}
+.acts{display:flex;gap:6px}
+.acts button{width:44px;height:40px;border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--muted);font-size:18px;font-weight:700;cursor:pointer}
+.acts .yes[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.acts .no[aria-pressed="true"]{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+li.it.missing{background:var(--bad-soft)}
+.note{grid-column:2/4}
+.note input{font-size:14px;padding:7px 10px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+.bar .wrap{padding-block:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.prog{flex:1 1 180px;display:grid;gap:6px;font-size:14px;font-variant-numeric:tabular-nums}
+.track{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.fill{height:100%;background:var(--accent);width:0;transition:width .2s}
+.primary{font:700 16px var(--f-display);padding:12px 20px;border-radius:8px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.primary:disabled{opacity:.45;cursor:not-allowed}
+.ghost{font:700 14px var(--f-body);padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}
+.msg{padding:12px 14px;border-radius:8px;font-size:14px}
+.msg.info{background:var(--accent-soft)} .msg.err{background:var(--bad-soft);color:var(--bad)} .msg.good{background:var(--ok-soft);color:var(--ok);font-weight:700}
+.hist{display:grid;gap:10px}
+.rec{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:6px}
+.rec-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+.rec-date{font:700 16px var(--f-display);font-variant-numeric:tabular-nums}
+.pill{font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px}
+.p-ok{background:var(--ok-soft);color:var(--ok)} .p-bad{background:var(--bad-soft);color:var(--bad)} .p-use{background:var(--warn-soft);color:var(--warn)} .p-rt{background:var(--accent-soft);color:var(--accent)}
+.rec ul{margin:4px 0 0;padding-left:18px;font-size:14px}
+.rec .meta{font-size:14px;color:var(--muted)}
+.confirm{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+@media (max-width:420px){ li.it{padding:9px 10px} .acts button{width:40px} }
+@media (prefers-reduced-motion:reduce){.fill{transition:none}}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <div class="eyebrow">Ward equipment check</div>
+        <h1>Homebirth Bag</h1>
+      </div>
+      <div id="status" class="status st-none"><span class="dot"></span><span id="statusTxt">Loading…</span></div>
+    </div>
+    <div id="statusLine" class="statusline">Check twice a week and after every use.</div>
+    <div class="tabs" role="tablist">
+      <button class="tab" id="tabCheck" role="tab" aria-selected="true">Check bag</button>
+      <button class="tab" id="tabHist" role="tab" aria-selected="false">History</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap" id="viewCheck">
+    <div id="dbMsg" class="msg info" hidden></div>
+    <section class="panel" aria-label="Check details">
+      <div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:6px">Reason for check</div>
+        <div class="seg" id="reason">
+          <button type="button" data-v="routine" aria-pressed="true">Routine check<small>Twice weekly</small></button>
+          <button type="button" data-v="after-use" aria-pressed="false">After use<small>Restocking after a birth or call-out</small></button>
+        </div>
+      </div>
+      <label class="fld" for="checker">Checked by (name and role)
+        <input type="text" id="checker" placeholder="e.g. J. Smith, RM" autocomplete="off">
+      </label>
+    </section>
+    <div id="sections" style="display:grid;gap:16px"></div>
+  </div>
+
+  <div class="wrap" id="viewHist" hidden>
+    <div id="histMsg" class="msg info">Loading check history…</div>
+    <div class="hist" id="hist"></div>
+  </div>
+</main>
+
+<div class="bar" id="bar">
+  <div class="wrap">
+    <div class="prog">
+      <div id="progTxt">0 of 0 items checked</div>
+      <div class="track"><div class="fill" id="fill"></div></div>
+    </div>
+    <div class="confirm" id="confirmBox" hidden>
+      <span id="confirmTxt" style="font-size:14px"></span>
+      <button class="ghost" id="cancelBtn" type="button">Back</button>
+      <button class="primary" id="confirmBtn" type="button">Confirm</button>
+    </div>
+    <button class="ghost" id="resetBtn" type="button">Clear</button>
+    <button class="primary" id="submitBtn" type="button" disabled>Submit check</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ===================== CONFIG =====================
+const SUPABASE_URL = "https://yfasnhzuqzrkbqcgcbkb.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmYXNuaHp1cXpya2JxY2djYmtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0MzE5NTEsImV4cCI6MjEwOTAwNzk1MX0.V1uK8fQnmRdNlSVgBeRlYOEDNKCS4hn8fa9GTb9sQJk";
+const WARD_NAME = "Community Midwifery";
+// ==================================================
+const BAG = "homebirth";
+const TABLE = "bag_checks";
+const SECTIONS = [
+  {name:"Front Top Pocket", items:["Pinard","9V Battery","Ultrasound Gel","Sonicaid","Non-sterile Gloves","Sterile Gloves – S, M, L","Emergency Directory"]},
+  {name:"Front Bottom Pocket", items:["Child Health Record","Bio Bin","Sats Monitor","Maternity Pads"]},
+  {name:"Side Pocket 1", items:["Towels","Sharps Bin"]},
+  {name:"Side Pocket 2", items:["Incos"]},
+  {name:"Inside Main Bag – Blood / IV Access Pouch", colour:"var(--yellow)", tag:"Yellow", items:[
+    "3x 2ml Syringe","3x 5ml Syringe","3x 1ml Syringe","6x Green Needle","4x Green Vacutainer Needle","2x Butterfly","Tape","2x Orange Needle","3x Yellow Vitamin K Syringe","4x Vacutainer","2x Blue Blood Bottle","3x Orange/Yellow Blood Bottle","2x Grey Blood Bottle","3x Pink Blood Bottle","5x Saline Prefilled Syringe","2x Lidocaine 20ml","1x Oral Vitamin K Syringe","3x Blue Luer Adapter for Vacutainer","5x Glass Filter Needle","3x Red Bung Needle","2x Cannula Bung","4x Cannula Dressing","Cotton Wool","3x 18g Green Cannula","3x 16g Grey Cannula","2x One-way Cannula Bung","2x Octopus Cannula Extension Set","4x Single-use Tourniquet","Alcohol Wipes"]},
+  {name:"Delivery and Perineal Repair Pouch", colour:"var(--orange)", tag:"Orange", items:[
+    "3x 2-0 Vicryl Rapide Suture","3x 3-0 Vicryl Rapide Suture","4x Cord Clamp","2x Cord Scissors","1x Standard Suture Pack","1x Head Torch","Goggles","3x 10ml Syringe","2x 20ml Syringe","2x Packs X-ray Detectable Swabs","OptiLube","Mayo Straight Episiotomy Scissors","Amnihooks","Catheter Bag","14g Foley Indwelling Catheter","3x In/Out Catheter","Instillagel","1x VE Pack"]},
+  {name:"Drug Box", items:["Oxytocin 10 IU","Syntometrine","Ergometrine 500mcg","Vitamin K","2x Voltarol Suppositories 50mg"]},
+  {name:"Fluid Box", items:["Sodium Chloride 0.9% 500ml","Compound Sodium Lactate 1000ml","2x IV Giving Set","2x Blood Giving Set","2x Wide-bore IV Cannula Extension Set"]},
+  {name:"Neonatal Resus", items:["1x i-gel Size 1","Paediatric Resus Bag and Mask","1x Neonatal Face Mask Size 1","1x Neonatal Face Mask Size 0","Hat","Mucus Extractor","Preterm Resus Plastic Bag","Laryngoscope","Tongue Depressor","Yankauer Mini","Stethoscope"]},
+  {name:"Inside Top Pocket", items:["Urine Sticks","Urine Pots","Speculum","Thermometer","Hand Sanitiser"]},
+];
+// parse "3x Foo" into qty + name
+SECTIONS.forEach((s,si)=>{ s.items = s.items.map((raw,ii)=>{ const m=raw.match(/^(\d+)x\s+(.*)$/i); return {id:si+"-"+ii, qty:m?m[1]:"", name:m?m[2]:raw}; }); });
+const ALL = SECTIONS.flatMap(s=>s.items.map(i=>({...i, sec:s.name})));
+const TOTAL = ALL.length;
+
+let state = {reason:"routine", checker:"", marks:{}, notes:{}};
+const DRAFT_KEY = "hbbag-draft-v1";
+try{ const d = JSON.parse(localStorage.getItem(DRAFT_KEY)||"null"); if(d && d.marks) state = Object.assign(state,d); }catch(e){}
+function saveDraft(){ try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(state)); }catch(e){} }
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function renderSections(){
+  $("sections").innerHTML = SECTIONS.map((s,si)=>`
+    <section class="sec" data-si="${si}">
+      <div class="sec-h">
+        <h2>${s.colour?`<span class="swatch" style="background:${s.colour}" title="${s.tag} pouch"></span>`:""}${esc(s.name)}${s.tag?` <span class="count">(${s.tag})</span>`:""}</h2>
+        <span class="count" id="cnt-${si}"></span>
+        <button class="allbtn" type="button" data-all="${si}">All present</button>
+      </div>
+      <ul class="items">${s.items.map(it=>`
+        <li class="it" id="li-${it.id}">
+          <span class="qty ${it.qty?"":"blank"}">${it.qty?it.qty+"×":""}</span>
+          <span class="nm">${esc(it.name)}</span>
+          <span class="acts">
+            <button class="yes" type="button" data-id="${it.id}" data-v="ok" aria-label="${esc(it.name)} present" aria-pressed="false">✓</button>
+            <button class="no" type="button" data-id="${it.id}" data-v="missing" aria-label="${esc(it.name)} missing or short" aria-pressed="false">✕</button>
+          </span>
+          <div class="note" id="note-${it.id}" hidden><input type="text" id="n-${it.id}" data-note="${it.id}" placeholder="Missing / short / expired – action taken (e.g. restocked from store)"></div>
+        </li>`).join("")}
+      </ul>
+    </section>`).join("");
+}
+
+function refresh(){
+  let done=0;
+  SECTIONS.forEach((s,si)=>{
+    let c=0;
+    s.items.forEach(it=>{
+      const v=state.marks[it.id];
+      if(v) {c++; done++;}
+      const li=$("li-"+it.id);
+      li.classList.toggle("missing", v==="missing");
+      li.querySelector(".yes").setAttribute("aria-pressed", v==="ok");
+      li.querySelector(".no").setAttribute("aria-pressed", v==="missing");
+      $("note-"+it.id).hidden = v!=="missing";
+      const inp=$("n-"+it.id); if(document.activeElement!==inp) inp.value = state.notes[it.id]||"";
+    });
+    const el=$("cnt-"+si); el.textContent=`${c}/${s.items.length}`; el.classList.toggle("done", c===s.items.length);
+  });
+  [...$("reason").children].forEach(b=>b.setAttribute("aria-pressed", b.dataset.v===state.reason));
+  $("checker").value = state.checker;
+  $("progTxt").textContent = `${done} of ${TOTAL} items checked`;
+  $("fill").style.width = (done/TOTAL*100)+"%";
+  $("submitBtn").disabled = !(done===TOTAL && state.checker.trim() && db && canWrite);
+  $("submitBtn").title = done<TOTAL ? "Mark every item present or missing first" : (!state.checker.trim() ? "Add the checker's name" : "");
+}
+
+document.addEventListener("click", e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.id){ const cur=state.marks[b.dataset.id]; state.marks[b.dataset.id] = cur===b.dataset.v ? undefined : b.dataset.v; if(!state.marks[b.dataset.id]) delete state.marks[b.dataset.id]; saveDraft(); refresh(); }
+  else if(b.dataset.all!==undefined){ SECTIONS[+b.dataset.all].items.forEach(it=>{ if(state.marks[it.id]!=="missing") state.marks[it.id]="ok"; }); saveDraft(); refresh(); }
+  else if(b.parentElement && b.parentElement.id==="reason"){ state.reason=b.dataset.v; saveDraft(); refresh(); }
+});
+document.addEventListener("input", e=>{
+  if(e.target.dataset.note){ state.notes[e.target.dataset.note]=e.target.value; saveDraft(); }
+  if(e.target.id==="checker"){ state.checker=e.target.value; saveDraft(); refresh(); }
+});
+
+// tabs
+function showTab(h){ $("tabCheck").setAttribute("aria-selected",!h); $("tabHist").setAttribute("aria-selected",h); $("viewCheck").hidden=h; $("viewHist").hidden=!h; $("bar").hidden=h; }
+$("tabCheck").onclick=()=>showTab(false); $("tabHist").onclick=()=>showTab(true);
+
+// reset with inline confirm
+let resetArmed=false;
+$("resetBtn").onclick=()=>{
+  if(!resetArmed){ resetArmed=true; $("resetBtn").textContent="Tap again to clear"; setTimeout(()=>{resetArmed=false;$("resetBtn").textContent="Clear";},3000); return; }
+  resetArmed=false; $("resetBtn").textContent="Clear";
+  state.marks={}; state.notes={}; saveDraft(); refresh();
+};
+
+// submit flow
+$("submitBtn").onclick=()=>{
+  const miss=ALL.filter(i=>state.marks[i.id]==="missing");
+  $("confirmTxt").textContent = miss.length ? `${miss.length} item${miss.length>1?"s":""} missing or short.` : "All items present.";
+  $("confirmBox").hidden=false; $("submitBtn").hidden=true; $("resetBtn").hidden=true;
+};
+$("cancelBtn").onclick=()=>{ $("confirmBox").hidden=true; $("submitBtn").hidden=false; $("resetBtn").hidden=false; };
+$("confirmBtn").onclick=async()=>{
+  $("confirmBtn").disabled=true;
+  const missing=ALL.filter(i=>state.marks[i.id]==="missing").map(i=>({section:i.sec, item:(i.qty?i.qty+"x ":"")+i.name, note:(state.notes[i.id]||"").trim()}));
+  const rec={bag:BAG, at:Date.now(), reason:state.reason, checkedBy:state.checker.trim(), totalItems:TOTAL, missingCount:missing.length, missing};
+  try{
+    const {error} = await db.from(TABLE).insert({ward:WARD_NAME, bag:BAG, reason:rec.reason, checked_by:rec.checkedBy, total_items:TOTAL, missing_count:missing.length, missing});
+    if(error) throw error;
+    loadHistory();
+    state.marks={}; state.notes={}; saveDraft();
+    $("cancelBtn").onclick();
+    refresh();
+    showMsg("good", `Check saved ${fmt(rec.at)}. ${missing.length?"Missing items are listed in History.":"Bag complete."}`);
+    window.scrollTo({top:0});
+  }catch(err){
+    console.error(err);
+    showMsg("err", "Couldn't save the check. Check your connection and try again – your ticks are kept on this device." + (err && err.message ? " (" + err.message + ")" : ""));
+  }
+  $("confirmBtn").disabled=false;
+};
+function showMsg(kind,txt){ const m=$("dbMsg"); m.className="msg "+kind; m.textContent=txt; m.hidden=false; }
+
+// time helpers
+const fmt = t => new Date(t).toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"});
+function ago(t){ const h=(Date.now()-t)/36e5; if(h<1) return "less than an hour ago"; if(h<24) return Math.floor(h)+" h ago"; const d=Math.floor(h/24); return d+" day"+(d>1?"s":"")+" ago"; }
+
+// status: twice weekly = at most 3.5 days between checks
+function renderStatus(last){
+  const st=$("status"), tx=$("statusTxt"), line=$("statusLine");
+  if(!last){ st.className="status st-warn"; tx.textContent="No checks yet"; line.textContent="Check twice a week and after every use."; return; }
+  const days=(Date.now()-last.at)/864e5, due=new Date(last.at+3.5*864e5);
+  const dueTxt=due.toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
+  if(days>3.5){ st.className="status st-bad"; tx.textContent="Check overdue"; }
+  else if(days>2.5){ st.className="status st-warn"; tx.textContent="Check due soon"; }
+  else if(last.missingCount){ st.className="status st-warn"; tx.textContent=`${last.missingCount} item${last.missingCount>1?"s":""} flagged`; }
+  else { st.className="status st-ok"; tx.textContent="Bag complete"; }
+  line.textContent=`Last checked ${ago(last.at)} by ${last.checkedBy||"unknown"}. Next check due by ${dueTxt}.`;
+}
+
+function renderHistory(recs){
+  renderStatus(recs[0]);
+  if(!recs.length){ $("histMsg").hidden=false; $("histMsg").className="msg info"; $("histMsg").textContent="No checks recorded yet. Complete the first check on the Check bag tab."; $("hist").innerHTML=""; return; }
+  $("histMsg").hidden=true;
+  $("hist").innerHTML=recs.map(r=>`
+    <article class="rec">
+      <div class="rec-top">
+        <span class="rec-date">${esc(fmt(r.at))}</span>
+        <span style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="pill ${r.reason==="after-use"?"p-use":"p-rt"}">${r.reason==="after-use"?"After use":"Routine"}</span>
+          <span class="pill ${r.missingCount?"p-bad":"p-ok"}">${r.missingCount?r.missingCount+" missing / short":"All present"}</span>
+        </span>
+      </div>
+      <div class="meta">Checked by ${esc(r.checkedBy||"–")} · ${r.totalItems} items</div>
+      ${r.missingCount?`<ul>${(r.missing||[]).map(m=>`<li><strong>${esc(m.item)}</strong> <span class="meta">(${esc(m.section)})</span>${m.note?` – ${esc(m.note)}`:""}</li>`).join("")}</ul>`:""}
+    </article>`).join("");
+}
+
+// data
+let db=null, canWrite=true;
+document.querySelector(".eyebrow").textContent = WARD_NAME + " · equipment check";
+renderSections(); refresh();
+async function loadHistory(){
+  if(!db) return;
+  const {data, error} = await db.from(TABLE).select("*").eq("ward",WARD_NAME).eq("bag",BAG).order("created_at",{ascending:false}).limit(200);
+  if(error){ console.error(error); $("histMsg").hidden=false; $("histMsg").className="msg err"; $("histMsg").textContent="Couldn't load history: " + error.message; $("statusTxt").textContent="Offline"; return; }
+  renderHistory(data.map(r=>({at:Date.parse(r.created_at), reason:r.reason, checkedBy:r.checked_by, totalItems:r.total_items, missingCount:r.missing_count, missing:r.missing||[]})));
+}
+(()=>{
+  if(!window.supabase || SUPABASE_URL.includes("YOUR_")){ showMsg("err","Can't connect to the database. Check your internet connection and the settings in the CONFIG section."); $("histMsg").textContent="History is unavailable."; $("statusTxt").textContent="Offline"; refresh(); return; }
+  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  refresh();
+  loadHistory();
+  setInterval(loadHistory, 60000);
+})();
+</script>
+
+</body></html>
